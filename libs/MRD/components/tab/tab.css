@@ -1,0 +1,108 @@
+.tabs
+{
+    width: 100%;
+}
+.tabs-sidebar
+{
+    display: flex;
+    flex-direction: column;
+}
+.tabs-sidebar .tabs-nav
+{
+    display: flex;
+    padding-top: 0;
+}
+.tabs-sidebar .tabs-nav .tab-nav-element
+{
+    border-bottom: none;
+    margin: 0;
+    border-radius: 0;
+    padding: 8px;
+}
+.tabs-nav
+{
+    padding-top: 20px;
+    display: flex;
+    font-size: 1.1rem;
+    flex-wrap: wrap;
+}
+.tab-nav-element
+{
+    padding: 5px;
+    flex-grow: 1;
+    margin: 5px 6px 0px 5px;
+    border-radius: 10px 10px 0px 0px;
+    border-bottom: 5px solid var(--primary);
+    margin-bottom: 10px;
+    transition: 0.3s cubic-bezier(.77,0,.18,1) all;
+}
+/* .tab-nav-element:hover
+{
+    border-bottom: 5px solid var(--secondary);
+    cursor: pointer;
+} */
+.tab-content
+{
+    opacity: 0;
+    max-height:0;
+    overflow: hidden;
+    transition: 0.3s cubic-bezier(.77,0,.18,1) opacity,max-height;
+}
+.tab-nav-active
+{
+    background-color: var(--primary-dark);
+}
+.tab-content-active
+{
+    opacity: 1;
+    max-height: 5000px;
+    overflow: visible;
+}
+
+td[data-label="options"]
+{
+    display: flex;
+    justify-content: right;
+}
+
+
+/* MAKE THAT MOBILE FIRST */
+@media screen and (min-width: 35.5em)	/*≥ 568px	*/
+{
+    
+}
+@media screen and (min-width: 48em)	    /*≥ 768px	*/
+{
+    .tab-nav-element
+    {
+        margin-bottom: 0;
+        flex-grow: 0;
+    }
+    .tabs-sidebar
+    {
+        flex-grow: 1;
+        flex-direction: row;
+    }
+    .tabs-sidebar .tabs-nav
+    {
+        width: 160px;
+        flex-direction: column;
+    }
+    .tabs-sidebar .tabs-content
+    {
+        flex-grow: 1;
+    }
+    
+}
+@media screen and (min-width: 64em)	    /*≥ 1024px	*/
+{
+
+}
+@media screen and (min-width: 80em)	    /*≥ 1280px	*/
+{
+
+}
+@media screen and (min-width: 120em)   /* ≥ 1920px */
+{
+
+}

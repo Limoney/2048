@@ -1,0 +1,374 @@
+:root
+{
+    --primary: #3498db;
+    --primary-dark: #2980b9;
+    --primary-darker: #2473a6;
+    --secondary: #34495e;
+    --secondary-dark: #2c3e50;
+    --font: #ecf0f1;
+    --error: #e74c3c;
+    --error-dark: #c0392b;
+}
+body
+{
+    margin: 0;
+    padding: 0;
+}
+a
+{
+    text-decoration: none;
+}
+
+/* G L O B A L   &   U T I L I T Y */
+
+*
+{
+    color: var(--font);
+    font-family: 'Anek Malayalam', sans-serif;
+}
+.is-invisible
+{
+    opacity: 0;
+}
+.is-hidden
+{
+    display: none;
+}
+.is-primary,
+.is-secondary
+{
+    color: var(--font);
+}
+.is-primary
+{
+    background-color: var(--primary);
+}
+.is-primary-hover:hover
+{
+    background-color: var(--primary-dark);
+}
+.is-secondary
+{
+    background-color: var(--secondary);
+}
+.is-secondary-hover:hover
+{
+    background-color: var(--secondary-dark);
+}
+.is-error
+{
+    background-color: var(--error);
+}
+.is-error-hover:hover
+{   
+    background-color: var(--error-dark);
+}
+.is-primary-hover:hover,
+.is-secondary-hover:hover,
+.is-error-hover:hover
+{
+    cursor: pointer;
+}
+i.fa-solid
+{
+    margin: 0 0.5rem;
+}
+.p5
+{
+    padding: 5px;
+}
+.p10
+{
+    padding: 10px;
+}
+.text-left
+{
+    text-align: left;
+}
+.text-center
+{
+    text-align: center;
+}
+.text-right
+{
+    text-align: right;
+}
+
+/* C O M P O N E N T S */
+
+/* I N P U T */
+button,
+.button,
+.button-sm,
+.button-md,
+.button-lg,
+.button-flex
+{
+    border: none;
+    border-radius: 5px;
+    transition: 0.3s cubic-bezier(.77,0,.18,1) all;
+}
+.button-sm
+{
+    padding: 5px 10px;
+    font-size: 0.95rem;
+}
+.button,
+.button-md,
+.button-flex
+{
+    padding: 10px 50px;
+    font-size: 1rem;
+}
+.button-lg
+{
+    padding: 16px 100px;
+    font-size: 1.1rem;
+}
+.button-flex
+{
+    width: 100%;
+}
+input
+{
+    background-color: transparent;
+    border: none;
+    border-bottom: 5px solid var(--primary-dark);
+    box-sizing: border-box;
+    padding: 5px;
+    color: var(--font);
+    transition: 0.25s ease-in-out all;
+}
+input[type='radio'],input[type='checkbox']
+{
+    appearance: none;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-bottom: none;
+    border: 2px solid var(--primary-dark);
+    position: relative;
+}
+input[type='radio']:checked::after,input[type='checkbox']:checked::after
+{
+    font-family: "Font Awesome 5 Free";
+    content: "\f00c";
+    font-weight: 900;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%,-50%);
+}
+input[type='radio']
+{
+    border-radius: 50%;
+}
+input[type='checkbox']
+{
+    border-radius: 2px;
+}
+input[type='radio']:checked,input[type='checkbox']:checked
+{
+    background-color: var(--primary);
+}
+
+input[type='date'],
+input[type='email'],
+input[type='number'],
+input[type='password'],
+input[type='search'],
+input[type='tel'],
+input[type='text'],
+input[type='url'],
+select
+{
+    width: 100%;
+}
+input:not([type=submit]):not([type="checkbox"]):not([type="radio"]):focus
+{
+    outline: none;
+    border-bottom-color: var(--primary);
+}
+select
+{
+    border: none;
+    background-color: var(--secondary);
+    padding: 5px 10px;
+}
+select option
+{
+    background-color: #2c3e50;
+}
+
+/* I M A G E S */
+.image,
+.image-sm,
+.image-md,
+.image-lg,
+.image-fluid
+{
+    border-radius: 10px;
+    max-height: 400px;
+    overflow: hidden;
+}
+.image-sm
+{
+    width: 200px;
+}
+.image,
+.image-md
+{
+    width: min(400px,100%);
+}
+.image-lg
+{
+    width: min(600px,100%);
+}
+.image-fluid
+{
+    width: 100%;
+    max-height: 50%;
+}
+.image img,
+.image-sm img,
+.image-md img,
+.image-lg img,
+.image-fluid img
+{
+    border-radius: 10px;
+    width: 100%;
+}
+
+/* T A B L E*/
+table
+{
+    border-collapse: collapse;
+    width: 100%;
+}
+th
+{
+    background-color: var(--primary);
+    padding: 10px;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+tbody tr:nth-child(odd)
+{
+    background-color: var(--secondary-dark);
+}
+thead
+{
+    display:none;
+}
+table, tbody, tr, td
+{
+    display:block;
+}
+td
+{
+    padding: 10px;
+    margin: 10px;
+    text-align: right;
+    position: relative;
+}
+td::before
+{
+    content: attr(data-label);
+    position: absolute;
+    left: 
+    0;
+}
+
+/* D R O P D O W N */
+.dropdown-items
+{
+    max-height: 0;
+    /* opacity: 0; */
+    overflow: hidden;
+    transition: 0.4s all ease-in-out;
+    background-color: var(--primary);
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+.dropdown-items .nav-element
+{
+    margin-left: 20px;
+}
+.dropdown-trigger:checked
+{
+    background-color: var(--primary-dark);
+}
+.dropdown-trigger:checked + .dropdown-items
+{
+    max-height: 5000px;
+    opacity: initial;
+    overflow: visible;
+}
+.dropdown-trigger:checked ~ .dropdown-items
+{
+    max-height: 5000px;
+    opacity: initial;
+    overflow: visible;
+}
+
+/* P A G I N A T I O N */
+.pagination
+{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+.page-button
+{
+    flex-grow: 1;
+    text-align: center;
+    padding: 5px;
+}
+.pagination .page-button:nth-child(1),
+.pagination .page-button:nth-child(2),
+.pagination .page-button:nth-last-child(1),
+.pagination .page-button:nth-last-child(2)
+{
+    padding: 5px 10px;
+}
+.pagination .page-button:nth-child(n+6):not(:nth-last-child(1)):not(:nth-last-child(2))
+{
+    display: none;
+}
+
+
+/* MEDIA */
+
+@media screen and (min-width: 35.5em)	/*≥ 568px	*/
+{
+    
+}
+@media screen and (min-width: 48em)	    /*≥ 768px	*/
+{
+    thead, table, tbody, tr, td
+    {
+        display: revert;
+        text-align: left;
+    }
+    td::before, tr::after 
+    {
+        content: none;
+    }
+    /* .pagination .page-button:not(:nth-child(-n+5)):not(:nth-last-child(1)):not(:nth-last-child(2)) */
+    .pagination .page-button:nth-child(n+6):not(:nth-last-child(1)):not(:nth-last-child(2))
+    {
+        display: block;
+    }
+}
+@media screen and (min-width: 64em)	    /*≥ 1024px	*/
+{
+
+}
+@media screen and (min-width: 80em)	    /*≥ 1280px	*/
+{
+   
+}
+@media screen and (min-width: 120em)   /* ≥ 1920px */
+{
+
+}

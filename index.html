@@ -2,11 +2,144 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <script src="p5.min.js"></script>
-    <script src="main.js"></script>
+    <script src="libs/p5/p5.min.js" charset="utf-8"></script>
+    <script src="libs/gsap.min.js"></script>
+    <script src="scripts/GameEngine.js"></script>
+    <script src="scripts/GameController.js"></script>
+    <script src="scripts/Visualizer.js"></script>
+    <script src="scripts/Tile.js"></script>
+    <script src="scripts/main.js"></script>
+    <link rel="stylesheet" href="libs/MRD/global.css">
+    <link rel="stylesheet" href="main.css">
     <title>2048</title>
   </head>
   <body>
+    <div class="page-container">
+      <div class="nav is-primary">
+        <div class="logo">2048</div>
+        <div class="nav-buttons">
 
+        </div>
+      </div>
+      <div class="content is-secondary">
+        <div class="game">
+          <div class="canvas-wrapper" id="canvas-wrapper"></div>
+        </div>
+        
+        <div class="settings">
+
+          <div class="dropdowns">
+            <div class="dropdown">
+              <input type="checkbox" id="dropdown-gameplay" class="dropdown-trigger is-hidden">
+              <label for="dropdown-gameplay" class="dropdown-header is-primary-hover">
+                Gameplay
+              </label>
+                <ul class="dropdown-items">
+                  <li class="p10 text-center">
+                    <button class="button is-primary is-primary-hover">Reset</button>
+                  </li>
+                  <li class="p10">
+                    <label for="board-size-input">Board Size</label>
+                    <input type="number" id="board-size-input">
+                  </li>
+              </ul>
+            </div>
+            <div class="dropdown">
+              <input type="checkbox" id="dropdown-appearance" class="dropdown-trigger is-hidden">
+              <label for="dropdown-appearance" class="dropdown-header is-primary-hover">
+                Appearance
+              </label>
+                <ul class="dropdown-items">
+                  <li>
+                    <button class="button dropdown-field">a</button>
+                  </li>
+                  <li>
+                    <button class="button dropdown-field">b</button>
+                  </li>
+              </ul>
+            </div>
+            <div class="dropdown">
+              <input type="checkbox" id="dropdown-themes" class="dropdown-trigger is-hidden">
+              <label for="dropdown-themes" class="dropdown-header is-primary-hover">
+                Themes
+              </label>
+                <ul class="dropdown-items">
+                  <li>
+                    <button class="button dropdown-field">a</button>
+                  </li>
+                  <li>
+                    <button class="button dropdown-field">a</button>
+                  </li>
+                  <li>
+                    <button class="button dropdown-field">a</button>
+                  </li>
+                  <li>
+                    <button class="button dropdown-field">a</button>
+                  </li>
+                  <li>
+                    <button class="button dropdown-field">a</button>
+                  </li>
+                  <li>
+                    <button class="button dropdown-field">a</button>
+                  </li>
+                  <li>
+                    <button class="button dropdown-field">a</button>
+                  </li>
+                  <li>
+                    <button class="button dropdown-field">a</button>
+                  </li>
+                  <li>
+                    <button class="button dropdown-field">a</button>
+                  </li>
+                  <li>
+                    <button class="button dropdown-field">a</button>
+                  </li>
+                  <li>
+                    <button class="button dropdown-field">a</button>
+                  </li>
+                  <li>
+                    <button class="button dropdown-field">a</button>
+                  </li>
+                  <li>
+                    <button class="button dropdown-field">a</button>
+                  </li>
+                  <li>
+                    <button class="button dropdown-field">a</button>
+                  </li>
+                  <li>
+                    <button class="button dropdown-field">a</button>
+                  </li>
+                  <li>
+                    <button class="button dropdown-field">a</button>
+                  </li>
+                  <li>
+                    <button class="button dropdown-field">a</button>
+                  </li>
+                  <li>
+                    <button class="button dropdown-field">a</button>
+                  </li>
+                  <li>
+                    <button class="button dropdown-field">a</button>
+                  </li>
+                  <li>
+                    <button class="button dropdown-field">a</button>
+                  </li>
+  
+              </ul>
+            </div>
+          </div>
+          
+          <div class="themes">
+            <div class="theme-icon"></div>
+            <div class="theme-icon"></div>
+            <div class="theme-icon"></div>
+            <div class="theme-icon"></div>
+           
+          </div>
+        </div>
+      </div>
+      <div class="theme-load-screen"></div>
+    </div>
+    
   </body>
 </html>

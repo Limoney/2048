@@ -1,0 +1,114 @@
+.page-container
+{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Anek Malayalam', sans-serif;
+}
+.nav
+{
+    padding: 10px;
+    font-size: 1.5rem;
+}
+.content
+{
+    display: flex;
+    flex-grow: 1;
+}
+.game
+{
+    flex-grow: 1;
+    position: relative;
+    background-color: var(--secondary-dark);
+}
+.settings
+{
+    min-width: max(10%,300px);
+    display: flex;
+    flex-direction: column;
+    background-color: var(--secondary);
+    justify-content: space-between;
+    position: relative;
+}
+.themes
+{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: var(--primary);
+    width: 100%;
+    display: flex;
+    gap: 10px;
+}
+.theme-icon
+{
+    height: 60px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background-color: red;
+    margin: 0 auto;
+}
+.dropdown-header
+{
+    /* text-align: center; */
+    background-color: var(--primary);
+    padding: 10px;
+    display: block;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.3s all ease-in-out;
+}
+.canvas-wrapper
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 90%;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.dropdown-trigger:checked ~ .dropdown-header
+{
+    background-color: var(--primary-darker);
+}
+.dropdown-items
+{
+    background-color: var(--primary-darker);
+}
+.dropdown-field
+{
+    width: 100%;
+    border-radius: 0;
+    background-color: var(--primary-dark);
+    text-align: left;
+    transition: 0.3s all ease-in-out;
+}
+.dropdown-field:hover
+{
+    background-color: var(--primary-darker);
+    cursor: pointer;
+}
+.dropdowns
+{
+    max-height: calc(100vh - 48px);
+    overflow-y: scroll;
+    flex-grow: 1;
+}
+.theme-icon:hover .theme-load-screen
+{
+    clip-path: circle(200% at 50% 100%);
+}
+.theme-load-screen
+{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: purple;
+    clip-path: circle(0% at 100% 100%);
+    transition: 0.5s all ease-in-out;
+}
