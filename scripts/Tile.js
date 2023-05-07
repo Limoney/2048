@@ -1,26 +1,36 @@
 class Tile
 {
+    static visualizer;
+    static engine;
+    static appearEasing;
+    static moveEasing;
+    static combineEasing;
+    static borderSize;
+    static shape;
+
     constructor(x,y,size,boardPosition)
     {
+        console.log(`creating with size: ${size}`);
         this.position = createVector(x,y);
         this.size = size;
         this.value = 2;
         this.boardPosition = boardPosition;
         this.isAnimating = false;
         this.oldBoardPosition = null;
-        this.valueColor = "#3498db";
-        this.fillColor = "#2c3e50";
+        this.reloadTheme();
     }
 
     show()
     {
-        
         textSize(this.size*0.5);
         fill(this.fillColor);
-        rect(this.position.x,
+        stroke(this.borderColor);
+        strokeWeight(Tile.borderSize);
+        this.shapeFunction(this.position.x,
             this.position.y,
             this.size,this.size)
-        fill(this.valueColor);
+        fill(this.borderColor);
+        noStroke();
         text(this.value,this.position.x,this.position.y);
     }
 
@@ -32,7 +42,7 @@ class Tile
             },
             { 
                 size: this.size,
-                ease: "bounce.out", // Add bounce easing
+                ease: Tile.appearEasing,
                 duration: 0.3
             },
         );
@@ -42,84 +52,80 @@ class Tile
     {
         this.isAnimating = true;
         //make sure size isnt being animated!
-        let newPosition= createVector(this.position.x + boardPositionVector.x * visualizer.gridCellSize,
-                                      this.position.y + boardPositionVector.y * visualizer.gridCellSize)
+        let newPosition= createVector(this.position.x + boardPositionVector.x * gameController.getVisualizer().gridCellSize,
+                                      this.position.y + boardPositionVector.y * gameController.getVisualizer().gridCellSize)
 
         let newBoardPosition = this.boardPosition.copy().add(boardPositionVector);
 
-        // gsap.to(this.position, { 
-        //         x: newPosition.x,
-        //         y: newPosition.y,
-        //         ease: "expo.out", // Add bounce easing
-        //         duration: 0.5,
-        //         onComplete: () => {
-        //             //this must be done in visualizer one every tile has finished animating
-        //             // visualizer.tiles[newBoardPosition.x][newBoardPosition.y] = this;
-        //             // visualizer.tiles[this.boardPosition.x][this.boardPosition.y] = null;
-        //             this.oldBoardPosition = this.boardPosition.copy();
-        //             this.boardPosition = newBoardPosition;
-        //             this.isAnimating = false;
-        //         }
-        //     });
         const timeline = new TimelineLite();
         timeline.to(this.position, { 
                     x: newPosition.x,
                     y: newPosition.y,
-                    ease: "expo.out", // Add bounce easing
+                    ease: Tile.moveEasing,
                     duration: 0.5,
                     onComplete: () => {
-                        //this must be done in visualizer one every tile has finished animating
-                        // visualizer.tiles[newBoardPosition.x][newBoardPosition.y] = this;
-                        // visualizer.tiles[this.boardPosition.x][this.boardPosition.y] = null;
                         this.oldBoardPosition = this.boardPosition.copy();
                         this.boardPosition = newBoardPosition;
                         this.isAnimating = false;
                         console.log("value updated");
                     }
                 });
-                if (gameEngine.board[newBoardPosition.x][newBoardPosition.y] !== this.value) {
+                // redo later
+                // if (gameController.getEngine().getBoard()[newBoardPosition.x][newBoardPosition.y] !== this.value) {
+                //     timeline.add(() => {
+                //       const nestedTimeline = gsap.timeline();
+                //       nestedTimeline.to(this, {
+                //         borderColor: "#f1c40f",
+                //         duration: 0.2,
+                //         yoyo: 2,
+                //         repeat: 1,
+                //         onComplete: () => {
+                //           this.value = gameController.getEngine().getBoard()[newBoardPosition.x][newBoardPosition.y]; //refactor this later
+                //           console.log("value updated");
+                //         }
+                //       });
+                //     }, "<");
+                //   }
+                if (Tile.engine.getBoard()[newBoardPosition.x][newBoardPosition.y] !== this.value) 
+                {
                     timeline.add(() => {
                       const nestedTimeline = gsap.timeline();
+                      if(Tile.visualizer.flashOnCombine)
+                      {
+                        nestedTimeline.to(this, {
+                            borderColor: Tile.visualizer.valueColors["combine"],
+                            duration: 0.2,
+                            ease: Tile.combineEasing
+                          });
+                      }
                       nestedTimeline.to(this, {
-                        valueColor: "#f1c40f",
-                        duration: 0.3,
+                        borderColor: Tile.visualizer.valueColors[this.value * 2] ?? Tile.visualizer.valueColors["final"],
+                        duration: 0.2,
+                        ease: Tile.combineEasing,
                         onComplete: () => {
-                          this.value = gameEngine.board[newBoardPosition.x][newBoardPosition.y];
-                          console.log("value updated");
-                        }
-                      });
+                            this.value = Tile.engine.getBoard()[newBoardPosition.x][newBoardPosition.y]; //refactor this later
+                            this.borderColor = Tile.visualizer.valueColors[this.value] ?? Tile.visualizer.valueColors["final"];
+                          }
+                      })
+                      
                     }, "<");
-                  }
+                }
             timeline.play();
     }
 
-    transitionToValue(value)
+    setValue(newValue)
     {
-        if(value == this.value)
-            return;
+        this.value = newValue;
+        this.borderColor = Tile.visualizer.valueColors[this.value] ?? Tile.visualizer.valueColors["final"];
+    }
 
-        // gsap.to(this, {
-        //     valueColor: "#f1c40f",
-        //     duration: 0.5,
-        //     onComplete: () => {
-        //         this.value = value;
-        //     }
-        // });
-    //     gsap.fromTo(
-    //         this,
-    //         {
-    //             valueColor: "#f1c40fff"
-    //         },
-    //         {
-    //           duration: 2,
-    //           valueColor: "#f1c40f00",
-    //           yoyo: true, // Causes the animation to reverse back to the initial state
-    //           ease: "power2.out", // Easing function (optional),
-    //           onComplete: () => {
-    //                 this.value = value;
-    //             }
-    //         }
-            
-    //       );
+    reloadTheme()
+    {
+        this.borderColor = Tile.visualizer.valueColors[this.value] ?? Tile.visualizer.valueColors["final"];
+        this.fillColor = Tile.visualizer.valueColors["fill"];
+        if(Tile.shape == "circle")
+            this.shapeFunction = circle;
+        else
+            this.shapeFunction = rect;
     }
 }

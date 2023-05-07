@@ -1,0 +1,44 @@
+{
+    "name": "colorful-dark",
+    "grid": {
+        "fillColor": "#34495e",
+        "borderColor": "#2c3e50",
+        "borderSize": 2
+
+    },
+    "tile": {
+        "colors": {
+            "fill": "#2c3e50",
+            "combine": "#FFD700",
+            "2": "#2980b9",
+            "4": "#3498db",
+            "8": "#8e44ad",
+            "16": "#9b59b6",
+            "32": "#f39c12",
+            "64": "#f1c40f",
+            "128": "#d35400",
+            "256": "#e67e22",
+            "512": "#c0392b",
+            "1024": "#e74c3c",
+            "2048": "#27ae60",
+            "4096": "#2ecc71",
+            "final": "#f8c291"
+        },
+        "easings": {
+            "appear": "bounce.out",
+            "move": "expo.out",
+            "combine": "sine.inOut"
+        },
+    "borderSize": 2,
+    "shape": "rect"
+    },
+    "site": {
+        "primary": "#3498db",
+        "primary-dark": "#2980b9",
+        "primary-darker": "#175d8a",
+        "secondary": "#34495e",
+        "secondary-dark": "#2c3e50",
+        "secondary-darker": "#293a4b"
+    }
+
+}

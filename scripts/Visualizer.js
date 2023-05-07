@@ -1,37 +1,33 @@
 class Visualizer
 {
-    constructor()
+    gridCellSize;
+    halfGridCellSize;
+    gridBorderColor;
+    gridFillColor;
+    gridBorderSize;
+    tiles;
+    animating;
+    queuedTilePosition;
+    boardSize;
+    valueColors;
+    flashOnCombine;
+    theme;
+
+    constructor(boardSize = 4,theme)
     {
-        this.gridCellSize = canvasSize/boardSize;
-        this.halfGridCellSize = this.gridCellSize*0.5;
-        this.gridBorderColor = color(41, 128, 185)
-        this.gridFillColor = color(52, 73, 94)
-        this.gridBorderSize = 2;
-        this.tiles = Array.from({ length: boardSize }, () => Array(boardSize).fill(null));
-        this.swiped = false;
-        this.queuedTilePosition = null;
-        // for(let j=0;j<4;j++)
-        // {
-        //     for(let i=0;i<4;i++)
-        //     {
-        //         let tile = new Tile(i*this.gridCellSize + this.halfGridCellSize,
-        //                             j*this.gridCellSize + this.halfGridCellSize, 
-        //                             this.gridCellSize - 2* this.gridBorderSize - 25)
-        //         this.tiles[i][j] = tile;
-        //         tile.appear();
-                
-        //     }
-        // }
-        //this.resize();
+        this.boardSize = boardSize;
+        this.setTheme(theme);
+        this.reset();
     }
-    update()
+
+    update(engine)
     {
-        if(this.swiped)
+        if(this.animating)
         {
             let finished = true;
-            for(let j=0;j<boardSize;j++)
+            for(let j=0;j<this.boardSize;j++)
             {
-                for(let i=0;i<boardSize;i++)
+                for(let i=0;i<this.boardSize;i++)
                 {
                     if(this.tiles[i][j])
                     {
@@ -42,11 +38,11 @@ class Visualizer
             }
             if(finished)
             {
-                this.swiped = false;
-                let newTiles = Array.from({ length: boardSize }, () => Array(boardSize).fill(null));
-                for(let j=0;j<boardSize;j++)
+                this.animating = false;
+                let newTiles = Array.from({ length: this.boardSize }, () => Array(this.boardSize).fill(null));
+                for(let j=0;j<this.boardSize;j++)
                 {
-                    for(let i=0;i<boardSize;i++)
+                    for(let i=0;i<this.boardSize;i++)
                     {
                         let tile = this.tiles[i][j];
                         
@@ -54,9 +50,8 @@ class Visualizer
                         {
                             if(newTiles[tile.boardPosition.x][tile.boardPosition.y] != null)
                                 continue;
-                            tile.value = gameEngine.board[tile.boardPosition.x][tile.boardPosition.y];
-                            // tile.transitionToValue(gameEngine.board[tile.boardPosition.x][tile.boardPosition.y]);
-                            gsap.to(tile.value,{})
+
+                            tile.value = engine.getBoard()[tile.boardPosition.x][tile.boardPosition.y];
                             newTiles[tile.boardPosition.x][tile.boardPosition.y] = tile;
                         }
                     }
@@ -69,27 +64,25 @@ class Visualizer
 
     swipe(moves)
     {
-        this.swiped = true;
-        for(let j=0;j<boardSize;j++)
+        this.animating = true;
+        for(let j=0;j<this.boardSize;j++)
         {
-            for(let i=0;i<boardSize;i++)
+            for(let i=0;i<this.boardSize;i++)
             {
-                //i know that the value could have been changed at this point so i should create a timeline in moveBy and start transitioning value if it changed
                 if(this.tiles[i][j])
                     this.tiles[i][j].moveBy(moves[i][j]);
             }
         }
-        //update position of tiles in this.tiles ei. switch places in array by creating its copy;
     }
 
     draw()
     {
-        for(let j=0;j<boardSize;j++)
+        for(let j=0;j<this.boardSize;j++)
         {
-            for(let i=0;i<boardSize;i++)
+            for(let i=0;i<this.boardSize;i++)
             {
-                fill(this.gridFillColor);
-                stroke(this.gridBorderColor);
+                fill(this.theme.grid.fillColor);
+                stroke(this.theme.grid.borderColor);
                 strokeWeight(this.gridBorderSize);
                 rect(i*this.gridCellSize+this.halfGridCellSize,
                      j*this.gridCellSize + this.halfGridCellSize,
@@ -97,9 +90,9 @@ class Visualizer
                 
             }
         }
-        for(let j=0;j<boardSize;j++)
+        for(let j=0;j<this.boardSize;j++)
         {
-            for(let i=0;i<boardSize;i++)
+            for(let i=0;i<this.boardSize;i++)
             {
                 if(this.tiles[i][j])
                     this.tiles[i][j].show();
@@ -107,21 +100,21 @@ class Visualizer
         }
     }
 
-    resize()
+    resize(canvasSize)
     {
         
-        this.gridCellSize = canvasSize/boardSize;
-        // console.log(this.gridCellSize);
+        this.gridCellSize = canvasSize/this.boardSize;
         this.halfGridCellSize = this.gridCellSize*0.5;
-        for(let j=0;j<boardSize;j++)
+        let tileSize = this.computeTileSize();
+        for(let j=0;j<this.boardSize;j++)
         {
-            for(let i=0;i<boardSize;i++)
+            for(let i=0;i<this.boardSize;i++)
             {
                 if(this.tiles[i][j] == null)
                     continue;
-                this.tiles[i][j].size = this.gridCellSize - 2* this.gridBorderSize - 25
-                this.tiles[i][j].position.x = i*this.gridCellSize + this.halfGridCellSize,
-                this.tiles[i][j].position.y = j*this.gridCellSize + this.halfGridCellSize
+                this.tiles[i][j].size = tileSize;
+                this.tiles[i][j].position.x = i*this.gridCellSize + this.halfGridCellSize;
+                this.tiles[i][j].position.y = j*this.gridCellSize + this.halfGridCellSize;
             }
         }
     }
@@ -130,21 +123,20 @@ class Visualizer
     {
         let tile = new Tile(boardPosition.x*this.gridCellSize + this.halfGridCellSize,
                             boardPosition.y*this.gridCellSize + this.halfGridCellSize, 
-                            this.gridCellSize - 2* this.gridBorderSize - 25,
+                            this.computeTileSize(),
                             boardPosition)
             this.tiles[boardPosition.x][boardPosition.y] = tile;
             tile.appear();
     }
     
-    hardSet()
+    hardSet(engine)
     {
-        console.table(gameEngine.board)
-        this.tiles = Array.from({ length: boardSize }, () => Array(boardSize).fill(null));
-        for(let j=0;j<boardSize;j++)
+        this.tiles = Array.from({ length: this.boardSize }, () => Array(this.boardSize).fill(null));
+        for(let j=0;j<this.boardSize;j++)
         {
-            for(let i=0;i<boardSize;i++)
+            for(let i=0;i<this.boardSize;i++)
             {
-                if(gameEngine.board[i][j] != gameEngine.defaultTileValue)
+                if(engine.board[i][j] != GameEngine.defaultTileValue)
                 {
                     let tile = new Tile(i*this.gridCellSize + this.halfGridCellSize,
                                         j*this.gridCellSize + this.halfGridCellSize, 
@@ -152,9 +144,8 @@ class Visualizer
                                         createVector(i,j)
                                         )
                     this.tiles[i][j] = tile;
-                    tile.value = gameEngine.board[i][j];
+                    tile.setValue(engine.getBoard()[i][j]);
                 }
-                //tile.appear();
             }
         }
     }
@@ -162,5 +153,78 @@ class Visualizer
     queueTile(boardPosition)
     {
         this.queuedTilePosition = boardPosition;
+    }
+
+    reset()
+    {
+        Tile.visualizer = this;
+        this.tiles = Array.from({ length: this.boardSize }, () => Array(this.boardSize).fill(null));
+        this.animating = false;
+        this.queuedTilePosition = null;
+        this.flashOnCombine = true;
+        this.setTheme(this.theme); //very inefficinet refactor this
+    }
+
+    setBoardSize(boardSize)
+    {
+        this.boardSize = boardSize;
+    }
+
+    getBoardSize()
+    {
+        return this.boardSize;
+    }
+
+    isAnimating()
+    {
+        return this.animating;
+    }
+
+    setTheme(theme)
+    {
+        this.theme = theme;
+        this.gridBorderSize = this.theme.grid.borderSize;
+        this.valueColors = this.theme.tile.colors;
+        this.gridCellSize = canvasSize/this.boardSize;
+        this.halfGridCellSize = this.gridCellSize*0.5;
+        Tile.appearEasing = this.theme.tile.easings.appear;
+        Tile.moveEasing = this.theme.tile.easings.move;
+        Tile.combineEasing = this.theme.tile.easings.combine;
+        Tile.borderSize = this.theme.tile.borderSize;
+        Tile.shape = this.theme.tile.shape;
+        this.setCSSVariables();
+        if(this.tiles)
+        {
+            this.reloadThemeForTiles();
+        }
+    }
+
+    reloadThemeForTiles()
+    {
+        let tileSize = this.computeTileSize();
+        this.tiles.forEach(col => {
+            col.forEach(tile => {
+                if(tile)
+                {
+                    tile.reloadTheme();
+                    tile.size = tileSize;
+                }
+            });
+            });
+    }
+
+    computeTileSize()
+    {
+        return this.gridCellSize - 2* this.gridBorderSize - 25;
+    }
+
+    setCSSVariables()
+    {
+        const root = document.documentElement;
+        for(let colorName in this.theme.site)
+        {
+            root.style.setProperty("--" + colorName, this.theme.site[colorName]);
+        }
+        
     }
 }

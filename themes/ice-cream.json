@@ -1,0 +1,43 @@
+{
+    "name": "ice-cream",
+    "grid": {
+        "fillColor": "#867070",
+        "borderColor": "#D5B4B4",
+        "borderSize": 8
+
+    },
+    "tile": {
+        "colors": {
+            "fill": "#D5B4B4",
+            "combine": "#D5B4B4",
+            "2": "#ba886d",
+            "4": "#A27160",
+            "8": "#ad4848",
+            "16": "#fbe2c1",
+            "32": "#9a373c",
+            "64": "#7e574f",
+            "128": "#c9184a",
+            "256": "#e67e22",
+            "512": "#663f1c",
+            "1024": "#590d22",
+            "2048": "#ef6351",
+            "4096": "#bd141e",
+            "final": "#78290f"
+        },
+        "easings": {
+            "appear": "power4.inOut",
+            "move": "circ.inOut",
+            "combine": "power2.Out"
+        },
+    "borderSize": 8,
+    "shape": "rect"
+    },
+    "site": {
+        "primary": "#867070",
+        "primary-dark": "#9a373c",
+        "primary-darker": "#7e574f",
+        "secondary": "#ad4848",
+        "secondary-dark": "#590d22",
+        "secondary-darker": "#590d22"
+    }
+}

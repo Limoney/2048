@@ -1,23 +1,30 @@
 class GameEngine
 {
-    constructor()
+    static defaultTileValue = -15;
+
+    board;
+    moved;
+    lastBoardState;
+    combinable;
+    moveBy;
+    boardSize;
+    score;
+    lastScore;
+
+    constructor(boardSize = 4)
     {
-        this.defaultTileValue=-15;
-        this.board=Array.from({ length: boardSize }, () => Array(boardSize).fill(this.defaultTileValue));
-        this.moved = false;
-        this.lastBoardState=[[],[],[],[]];
-        this.combinable= Array.from({ length: boardSize }, () => Array(boardSize).fill(true));
-        this.moveBy = Array.from({ length: boardSize }, () => Array(boardSize).fill(0));
+        this.boardSize = boardSize;
+        this.reset();
     }
 
     addNewTile()
     {
         let empty=0;
-        for(let j=0;j<boardSize;j++)
+        for(let j=0;j<this.boardSize;j++)
         {
-            for(let i=0;i<boardSize;i++)
+            for(let i=0;i<this.boardSize;i++)
             {
-                if(this.board[i][j]==this.defaultTileValue)
+                if(this.board[i][j]==GameEngine.defaultTileValue)
                     empty++;
             }
         }
@@ -26,9 +33,9 @@ class GameEngine
 
         while(true)
         {
-            let x = floor(random(boardSize)); //this will crash if it rolls 4
-            let y = floor(random(boardSize));
-            if(this.board[x][y]==this.defaultTileValue)
+            let x = floor(random(this.boardSize)); //this will crash if it rolls 4
+            let y = floor(random(this.boardSize));
+            if(this.board[x][y]==GameEngine.defaultTileValue)
             {
                 this.board[x][y]=2;
                 return createVector(x,y);
@@ -39,17 +46,17 @@ class GameEngine
     //return position of a new tile or null on failure to swipe
     swipe(direction)
     {
-        this.moveBy = Array.from({ length: boardSize }, () => Array(boardSize).fill(0));
-        this.combinable = Array.from({ length: boardSize }, () => Array(boardSize).fill(true));
-
+        this.moveBy = Array.from({ length: this.boardSize }, () => Array(this.boardSize).fill(0));
+        this.combinable = Array.from({ length: this.boardSize }, () => Array(this.boardSize).fill(true));
         this.lastBoardState = JSON.parse(JSON.stringify(this.board));
+        this.lastScore = this.score;
 
         this.moved = false;
         if(direction==moveRight)
         {
-            for(let j=0;j<boardSize;j++)
+            for(let j=0;j<this.boardSize;j++)
             {
-                for(let i=boardSize;i>=0;i--)
+                for(let i=this.boardSize;i>=0;i--)
                 {
                     this.move(i,j,direction);
                 }
@@ -57,9 +64,9 @@ class GameEngine
         }
         else if(direction==moveLeft)
         {//DZIAŁAJ!
-            for(let j=0;j<boardSize;j++)
+            for(let j=0;j<this.boardSize;j++)
             {
-                for(let i=0;i<boardSize;i++)
+                for(let i=0;i<this.boardSize;i++)
                 {
                     this.move(i,j,direction);
                 }
@@ -67,9 +74,9 @@ class GameEngine
         }
         else if(direction==moveTop)
         {
-            for(let i=0;i<boardSize;i++)
+            for(let i=0;i<this.boardSize;i++)
             {
-                for(let j=0;j<boardSize;j++)
+                for(let j=0;j<this.boardSize;j++)
                 {
                     this.move(i,j,direction);
                 }
@@ -77,9 +84,9 @@ class GameEngine
         }
         else if(direction==moveDown)
         {
-            for(let i=0;i<boardSize;i++)
+            for(let i=0;i<this.boardSize;i++)
             {
-                for(let j=boardSize;j>=0;j--)
+                for(let j=this.boardSize;j>=0;j--)
                 {
                     this.move(i,j,direction);
                 }
@@ -100,13 +107,13 @@ class GameEngine
 
     move(x,y,dir)
     {
-        const x_ = min(x,boardSize-1), y_ = min(y,boardSize-1);
+        const x_ = min(x,this.boardSize-1), y_ = min(y,this.boardSize-1);
         if(this.board[x_][y_] == -15)
             return;
         while(
-                (x+dir.x>-1 &&x+dir.x<boardSize || y+dir.y<boardSize && y+dir>-1) && //jeżeli nie wychodzimy zplanszy oraz
+                (x+dir.x>-1 &&x+dir.x<this.boardSize || y+dir.y<this.boardSize && y+dir>-1) && //jeżeli nie wychodzimy zplanszy oraz
                 (
-                    (this.board[x+dir.x][y+dir.y]==this.board[x][y]) || this.board[x+dir.x][y+dir.y]==this.defaultTileValue
+                    (this.board[x+dir.x][y+dir.y]==this.board[x][y]) || this.board[x+dir.x][y+dir.y]==GameEngine.defaultTileValue
                 ) && //następny kafelek ma taką samą wartość lub jest pusty
                 this.board[x][y]>0 //
             )
@@ -117,7 +124,8 @@ class GameEngine
             {
                 this.combinable[x+dir.x][y+dir.y]=false;
                 this.board[x+dir.x][y+dir.y]*=2;
-                this.board[x][y]=this.defaultTileValue;
+                this.score+=this.board[x+dir.x][y+dir.y];
+                this.board[x][y]=GameEngine.defaultTileValue;
                 this.moved=true;
                 x+=dir.x;
                 y+=dir.y;
@@ -127,7 +135,7 @@ class GameEngine
             else if(this.combinable[x+dir.x][y+dir.y]==true)
             {
                 this.board[x+dir.x][y+dir.y]=this.board[x][y];
-                this.board[x][y]=this.defaultTileValue;
+                this.board[x][y]=GameEngine.defaultTileValue;
                 this.moved = true;
                 x+=dir.x;
                 y+=dir.y;
@@ -145,17 +153,63 @@ class GameEngine
 
     goBack()
     {
-        for(let j=0;j<boardSize;j++)
+        for(let j=0;j<this.boardSize;j++)
         {
-            for(let i=0;i<boardSize;i++)
+            for(let i=0;i<this.boardSize;i++)
             {
                 this.board[i][j]=this.lastBoardState[i][j];
             }
         }
+        this.score = this.lastScore;
     }
 
     reset()
     {
-        
+        this.board=Array.from({ length: this.boardSize }, () => Array(this.boardSize).fill(GameEngine.defaultTileValue));
+        this.moved = false;
+        this.lastBoardState=[[],[],[],[]];
+        this.combinable= Array.from({ length: this.boardSize }, () => Array(this.boardSize).fill(true));
+        this.moveBy = Array.from({ length: this.boardSize }, () => Array(this.boardSize).fill(0));
+        this.score = 0;
+    }
+
+    getBoard()
+    {
+        return this.board;
+    }
+
+    setBoard(board)
+    {
+        this.board = board;
+    }
+
+    getLastBoard()
+    {
+        return this.lastBoardState;
+    }
+
+    getMoves()
+    {
+        return this.moveBy;
+    }
+
+    getCombined()
+    {
+        return this.combinable;
+    }
+
+    setBoardSize(boardSize)
+    {
+        this.boardSize = boardSize;
+    }
+
+    getBoardSize()
+    {
+        return this.boardSize;
+    }
+
+    getScore()
+    {
+        return this.score;
     }
 }

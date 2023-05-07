@@ -2,9 +2,10 @@
 {
     --primary: #3498db;
     --primary-dark: #2980b9;
-    --primary-darker: #2473a6;
+    --primary-darker: #175d8a;
     --secondary: #34495e;
     --secondary-dark: #2c3e50;
+    --secondary-darker: #293a4b;
     --font: #ecf0f1;
     --error: #e74c3c;
     --error-dark: #c0392b;
@@ -179,6 +180,7 @@ input[type='search'],
 input[type='tel'],
 input[type='text'],
 input[type='url'],
+input[type='color'],
 select
 {
     width: 100%;

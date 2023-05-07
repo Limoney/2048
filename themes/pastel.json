@@ -1,0 +1,43 @@
+{
+    "name": "pastel",
+    "grid": {
+      "fillColor": "#fce0e1",
+      "borderColor": "#EFD6FF",
+      "borderSize": 0
+    },
+    "tile": {
+      "colors": {
+        "fill": "#eeeeee",
+        "combine": "#f8ad9d",
+        "2": "#F4B1D4",
+        "4": "#EBADEA",
+        "8": "#D9B3F0",
+        "16": "#C1BAF5",
+        "32": "#B0C0F7",
+        "64": "#9FC6F9",
+        "128": "#8ECBF9",
+        "256": "#7DC1F7",
+        "512": "#6bb8f5",
+        "1024": "#F5CCB6",
+        "2048": "#F5D2B6",
+        "4096": "#F5D8B6",
+        "final": "#f8ad9d"
+      },
+      "easings": {
+        "appear": "sine.out",
+        "move": "sine.inOut",
+        "combine": "circ.inOut"
+      },
+	"borderSize": 10,
+	"shape": "circle"
+    },
+    "site": {
+		"primary": "#f68c70",
+		"primary-dark": "#f57c73",
+		"primary-darker": "#f56c77",
+		"secondary": "#f69c6d",
+		"secondary-dark": "#f55c7a",
+		"secondary-darker": "#f6bc66"
+    }
+  }
+  
