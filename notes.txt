@@ -1,1 +1,1 @@
-ctrl z doesnt decreese the score
+ctrl z doesnt reset sandbox

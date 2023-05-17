@@ -57,7 +57,14 @@ class Visualizer
                     }
                 }
                 this.tiles = newTiles;
+                if(this.swipeFinishOnceCallback)
+                {
+                    this.swipeFinishOnceCallback();
+                    this.swipeFinishOnceCallback = null;
+                }
                 this.addTile(this.queuedTilePosition);
+
+                
             }
         }
     }
@@ -162,6 +169,7 @@ class Visualizer
         this.animating = false;
         this.queuedTilePosition = null;
         this.flashOnCombine = true;
+        this.swipeFinishOnceCallback = null;
         this.setTheme(this.theme); //very inefficinet refactor this
     }
 
@@ -226,5 +234,10 @@ class Visualizer
             root.style.setProperty("--" + colorName, this.theme.site[colorName]);
         }
         
+    }
+
+    onSwipeFinishOnce(callback)
+    {
+        this.swipeFinishOnceCallback = callback;
     }
 }

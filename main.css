@@ -1,6 +1,6 @@
 .page-container
 {
-    min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
     font-family: 'Anek Malayalam', sans-serif;
@@ -30,14 +30,34 @@
     padding: 9px;
     background-color: var(--primary-dark);
 }
+.state
+{
+    margin-bottom: 10px;
+}
+.game-state
+{
+    background-color: var(--primary-dark);
+    font-size: 1.5rem;
+    max-height: 0px;
+    text-align: center;
+    padding: 0px;
+}
 .settings
 {
-    min-width: max(10%,300px);
+    width: max(10%,300px);
     display: flex;
     flex-direction: column;
     background-color: var(--secondary);
     justify-content: space-between;
     position: relative;
+    transition: 0.5s all ease-in-out;
+    overflow-x: hidden;
+}
+.settings-hidden
+{
+    /* min-width: 0px; */
+    width: 0px;
+    
 }
 .scroll-wrapper
 {
@@ -173,6 +193,34 @@
     background-color: #fce0e1;
     border: 4px solid #B0C0F7;
 }
+.hamburger, .redo
+{
+    background-color: var(--primary);
+    position: absolute;
+    border-radius: 100%;
+    font-size: 1.2rem;
+    padding: 15px;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s all cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+}
+.hamburger
+{
+    right: 0.62rem;
+    top: 0.62rem;
+}
+.redo
+{
+    right: 5.62rem;
+    top: 0.62rem;
+}
+.hamburger:hover, .redo:hover
+{
+    background-color: var(--primary-darker);
+}
 
 @keyframes theme-cover-screen {
     from {
@@ -184,3 +232,25 @@
     }
   }
 
+/* MEDIA */
+
+@media screen and (min-width: 35.5em)	/*≥ 568px	*/
+{
+    
+}
+@media screen and (min-width: 48em)	    /*≥ 768px	*/
+{
+
+}
+@media screen and (min-width: 64em)	    /*≥ 1024px	*/
+{
+
+}
+@media screen and (min-width: 80em)	    /*≥ 1280px	*/
+{
+   
+}
+@media screen and (min-width: 120em)   /* ≥ 1920px */
+{
+
+}

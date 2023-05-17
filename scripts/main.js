@@ -6,9 +6,9 @@ let moveDown;
 let canvas;
 let canvasWrapper;
 let canvasSize;
-
+let resizeTimeoutHandle = null;
 let gameController;
-
+let touchDirection;
 let themes = [];
 let defaultTheme = {
     "name": "colorful-dark",
@@ -53,14 +53,12 @@ let defaultTheme = {
         "secondary-darker": "#293a4b"
     }
 };
-let test;
 function preload()
 {
 	themes.push(defaultTheme);
 	themes.push(loadJSON("themes/ice-cream.json"));
 	themes.push(loadJSON("themes/pastel.json"));
 }
-
 function setup()
 {
 	canvasWrapper = document.getElementsByClassName("canvas-wrapper")[0];
@@ -90,6 +88,16 @@ function setup()
 	
 	initEditUI();
 	refreshEditUI();
+
+	let hammer = new Hammer(canvas.canvas, {preventDefault: true});
+	hammer.get('swipe').set({
+		direction: Hammer.DIRECTION_ALL
+	});
+
+  hammer.on("swipe", touchSwipe);
+
+  
+  new ResizeObserver(softResize).observe(document.querySelector(".game-canvas"));
 	
 }
 
@@ -117,6 +125,7 @@ function keyPressed()
 	if(direction)
 	{
 		gameController.swipe(direction);
+		console.log("key swipe");
 	}
 		
 	if(keyIsDown(90) && keyIsDown(17))
@@ -128,19 +137,41 @@ function keyPressed()
 	{
 		//board = [ [-15,32,8,2],[-15,-15,8,2],[-15,-15,-15,4],[-15,-15,2,-15] ]
 		board = [ [8192,4096,2048,1024],[512,256,128,64],[32,16,8,4],[2,-15,-15,-15] ]
+		board = [ [1024,1024,-15,2],[-15,-15,-15,-15],[-15,-15,-15,-15],[-15,-15,-15,-15] ]
 		gameController.getEngine().setBoard(board)
 		gameController.getVisualizer().hardSet(gameController.getEngine());
 		
 	}
 }
 
-window.addEventListener("resize",()=>{
-	canvasSize = min(canvasWrapper.clientWidth,canvasWrapper.clientHeight);
-	canvas.resize(canvasSize,canvasSize);
-	gameController.getVisualizer().resize(canvasSize)
-	fill(0)
-	stroke(0);
-  })
+function touchSwipe(event) 
+{
+	if(gameController.getVisualizer().isAnimating())
+			return;
+
+	const swipeDir = event.direction;
+	let direction;
+	// Handle the swipe direction
+	switch (swipeDir) {
+		case Hammer.DIRECTION_LEFT:
+			direction = moveLeft;
+		break;
+		case Hammer.DIRECTION_RIGHT:
+			direction = moveRight;
+		break;
+		case Hammer.DIRECTION_UP:
+			direction = moveTop;
+		break;
+		case Hammer.DIRECTION_DOWN:
+			direction = moveDown;
+		break;
+		default:
+			return;
+	}
+
+	gameController.swipe(direction);
+	console.log("touch swipe");
+}
 
 function createThemeButtons()
 {
@@ -211,7 +242,31 @@ function initEditUI()
 		li.setAttribute("data-property-name",propertyName);
 
 		colorParent.appendChild(clone);
+
+		let settingsElement = document.querySelector('.settings');
+		let hamburger = document.querySelector('.hamburger');
+		let updateNav = () => {
+			let navOpen = JSON.parse(localStorage.getItem("openNav"));
+			localStorage.setItem('openNav',!navOpen);
+
+			if(!navOpen)
+				openNav()
+			else
+				closeNav();
+		};
+		let navState = JSON.parse(localStorage.getItem("openNav")) ?? true;
+		if(!navState)
+			closeNav();
+
+		hamburger.addEventListener('click',updateNav);
+
+		function closeNav() {settingsElement.classList.add('settings-hidden');}
+		function openNav() {settingsElement.classList.remove('settings-hidden');}
 	}
+
+	document.querySelector(".redo").addEventListener("click",()=>{
+		gameController.restoreLastBoard();
+	});
 
 	document.querySelector("#save-btn").addEventListener("click",() => {
 		let copy = JSON.parse(JSON.stringify(visualizer.theme));
@@ -233,7 +288,33 @@ function initEditUI()
 		};
 		reader.readAsText(file);
 	})
+
+	// canvas.canvas.addEventListener("resize",()=>{
+	// 	// console.log("owo");	
+	// 	canvasSize = min(canvasWrapper.clientWidth,canvasWrapper.clientHeight);
+	// 	canvas.resize(canvasSize,canvasSize);
+	// 	gameController.getVisualizer().resize(canvasSize)
+	// 	fill(0)
+	// 	stroke(0);
+	//   })
 }
+function hardResize()
+{	
+	canvas.resize(canvasSize,canvasSize);
+	gameController.getVisualizer().resize(canvasSize)
+	console.log("hard resize");
+}
+
+function softResize()
+{
+	console.log("soft");
+	canvasSize = min(canvasWrapper.clientWidth,canvasWrapper.clientHeight);
+	canvas.canvas.style.width=`${canvasSize}px`;
+	canvas.canvas.style.height=`${canvasSize}px`; 
+	clearTimeout(resizeTimeoutHandle)
+	resizeTimeoutHandle = setTimeout(hardResize,150);
+}
+
 function refreshEditUI()
 {
 	let visualizer = gameController.getVisualizer();
