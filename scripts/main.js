@@ -125,7 +125,6 @@ function keyPressed()
 	if(direction)
 	{
 		gameController.swipe(direction);
-		console.log("key swipe");
 	}
 		
 	if(keyIsDown(90) && keyIsDown(17))
@@ -279,11 +278,9 @@ function initEditUI()
 		const file = themeInput.files[0];
 		let reader = new FileReader();
 		reader.onload = (event) => {
-			console.log("start");
 			const fileContents = event.target.result;
 			const jsonData = JSON.parse(fileContents);
 			gameController.getVisualizer().setTheme(jsonData);
-			console.log("done");
 			refreshEditUI();
 		};
 		reader.readAsText(file);
@@ -312,7 +309,7 @@ function softResize()
 	canvas.canvas.style.width=`${canvasSize}px`;
 	canvas.canvas.style.height=`${canvasSize}px`; 
 	clearTimeout(resizeTimeoutHandle)
-	resizeTimeoutHandle = setTimeout(hardResize,150);
+	resizeTimeoutHandle = setTimeout(hardResize,1000);
 }
 
 function refreshEditUI()

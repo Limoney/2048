@@ -94,6 +94,13 @@ i.fa-solid
 {
     text-align: right;
 }
+.center
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
 
 /* C O M P O N E N T S */
 
@@ -311,6 +318,25 @@ td::before
     max-height: 5000px;
     opacity: initial;
     overflow: visible;
+}
+.dropdown-header
+{
+    /* text-align: center; */
+    background-color: var(--primary);
+    padding: 10px;
+    display: block;
+    cursor: pointer;
+    user-select: none;
+    transition: 0.3s all ease-in-out;
+}
+.dropdown-header:hover
+{
+    background-color: var(--primary-dark);
+}
+
+.dropdown-trigger:checked ~ .dropdown-header
+{
+    background-color: var(--primary-dark);
 }
 
 /* P A G I N A T I O N */

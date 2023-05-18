@@ -18,16 +18,14 @@
   </head>
   <body>
     <div class="page-container">
-      <div class="nav is-primary">
-        <div class="logo">2048</div>
-        <div class="nav-buttons">
-
-        </div>
-      </div>
       <div class="content is-secondary">
+        <div class="nav is-is-secondary">
+          <div class="logo">2048</div>
+          <div class="nav-buttons"></div>
+        </div>
         <div class="game">
-          <div class="score" id="score">Score: 0</div>
-          <div class="game-state" id="game-state">
+          <div class="score is-secondary" id="score">Score: 0</div>
+          <div class="game-state is-secondary" id="game-state">
             <div class="state" id="state">You Won!</div>
             <button class="button is-primary is-primary-hover" id="state-close">Close</button>
           </div>
@@ -42,66 +40,64 @@
             <i class="fa-solid fa-rotate-right"></i>
           </button>
         </div>
-        
-        <div class="settings">
-
-          <div class="scroll-wrapper">
-            <div class="dropdowns">
-              <div class="dropdown">
-                <input type="checkbox" id="dropdown-gameplay" class="dropdown-trigger is-hidden">
-                <label for="dropdown-gameplay" class="dropdown-header is-primary-hover">
-                  Gameplay
-                </label>
-                  <ul class="dropdown-items">
-                    <li class="p10 text-center">
-                      <button class="button is-primary is-primary-hover" id="reset-btn">Reset</button>
-                    </li>
+      </div>
+      <div class="settings">
+        <div class="scroll-wrapper">
+          <div class="dropdowns">
+            <div class="dropdown">
+              <input type="checkbox" id="dropdown-gameplay" class="dropdown-trigger is-hidden">
+              <label for="dropdown-gameplay" class="dropdown-header is-primary-hover">
+                Gameplay
+              </label>
+                <ul class="dropdown-items">
+                  <li class="p10 text-center">
+                    <button class="button is-primary is-primary-hover" id="reset-btn">Reset</button>
+                  </li>
+                  <li class="p10">
+                    <label for="board-size-input">Board size</label>
+                    <input type="number" id="board-size-input">
+                  </li>
+                  <li class="center p10">
+                    <label for="flash-on-combine">Flash while combining tiles</label>
+                    <input type="checkbox" id="flash-on-combine" checked>
+                  </li>
+              </ul>
+            </div>
+            <div class="dropdown">
+              <input type="checkbox" id="dropdown-appearance" class="dropdown-trigger is-hidden">
+              <label for="dropdown-appearance" class="dropdown-header">
+                Appearance
+              </label>
+                <ul class="dropdown-items" id="appearance-items">
+                  <template id="dropdown-item-color">
                     <li class="p10">
-                      <label for="board-size-input">Board size</label>
-                      <input type="number" id="board-size-input">
+                      <label for="grid-X-input"></label>
+                      <input type="color" id="grid-X-input">
                     </li>
-                    <li class="center p10">
-                      <label for="flash-on-combine">Flash while combining tiles</label>
-                      <input type="checkbox" id="flash-on-combine" checked>
-                    </li>
-                </ul>
-              </div>
-              <div class="dropdown">
-                <input type="checkbox" id="dropdown-appearance" class="dropdown-trigger is-hidden">
-                <label for="dropdown-appearance" class="dropdown-header">
-                  Appearance
-                </label>
-                  <ul class="dropdown-items" id="appearance-items">
-                    <template id="dropdown-item-color">
-                      <li class="p10">
-                        <label for="grid-X-input"></label>
-                        <input type="color" id="grid-X-input">
-                      </li>
-                    </template>
-                    <li class="p10">
-                      <label for="grid-background-input">Background Color</label>
-                      <input type="color" id="grid-background-input">
-                    </li>
-                    <li class="p10">
-                      <label for="grid-background-input">Grid Color</label>
-                      <input type="color" id="grid-border-input">
-                    </li>
-                    <li id="tile-properties-wrapper"></li>
-                    <li class="p10 text-center">
-                      <button class="button is-primary is-primary-hover" id="save-btn">Save Appearance</button>
-                    </li>
-                    <li class="p10 text-center">
-                      <label for="theme-input" class="button is-primary is-primary-hover" id="load-btn">Load Appearance</button>
-                      <input type="file" class="is-hidden" id="theme-input">
-                    </li>
-                    
-                </ul>
-              </div>
+                  </template>
+                  <li class="p10">
+                    <label for="grid-background-input">Background Color</label>
+                    <input type="color" id="grid-background-input">
+                  </li>
+                  <li class="p10">
+                    <label for="grid-background-input">Grid Color</label>
+                    <input type="color" id="grid-border-input">
+                  </li>
+                  <li id="tile-properties-wrapper"></li>
+                  <li class="p10 text-center">
+                    <button class="button is-primary is-primary-hover" id="save-btn">Save Appearance</button>
+                  </li>
+                  <li class="p10 text-center">
+                    <label for="theme-input" class="button is-primary is-primary-hover" id="load-btn">Load Appearance</button>
+                    <input type="file" class="is-hidden" id="theme-input">
+                  </li>
+                  
+              </ul>
             </div>
           </div>
-          
-          <div class="themes"></div>
         </div>
+        
+        <div class="themes"></div>
       </div>
       <div id="theme-load-screen"></div>
     </div>

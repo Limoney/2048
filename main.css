@@ -2,7 +2,6 @@
 {
     min-height: 100dvh;
     display: flex;
-    flex-direction: column;
     font-family: 'Anek Malayalam', sans-serif;
 }
 .nav
@@ -14,33 +13,7 @@
 {
     display: flex;
     flex-grow: 1;
-}
-.game, .game-canvas
-{
-    flex-grow: 1;
-    position: relative;
-    background-color: var(--secondary-dark);
-    display: flex;
     flex-direction: column;
-}
-.score
-{
-    text-align: center;
-    font-size: 1.2rem;
-    padding: 9px;
-    background-color: var(--primary-dark);
-}
-.state
-{
-    margin-bottom: 10px;
-}
-.game-state
-{
-    background-color: var(--primary-dark);
-    font-size: 1.5rem;
-    max-height: 0px;
-    text-align: center;
-    padding: 0px;
 }
 .settings
 {
@@ -55,71 +28,12 @@
 }
 .settings-hidden
 {
-    /* min-width: 0px; */
     width: 0px;
-    
 }
 .scroll-wrapper
 {
     height: 100%;
     position: relative;
-}
-
-.themes
-{
-    /* position: absolute;
-    bottom: 0;
-    left: 0; */
-    background-color: var(--primary);
-    width: 100%;
-    display: flex;
-    gap: 10px;
-    padding: 5px 0px;
-}
-.theme-icon
-{
-    height: 60px;
-    aspect-ratio: 1;
-    border-radius: 50%;
-    background-color: red;
-    margin: 0 auto;
-    transition: 0.5s all cubic-bezier(0.165, 0.84, 0.44, 1);
-}
-.theme-icon:hover
-{
-    border-radius: 25%;
-    filter: brightness(115%);
-    
-}
-.dropdown-header
-{
-    /* text-align: center; */
-    background-color: var(--primary);
-    padding: 10px;
-    display: block;
-    cursor: pointer;
-    user-select: none;
-    transition: 0.3s all ease-in-out;
-}
-.dropdown-header:hover
-{
-    background-color: var(--primary-dark);
-}
-.canvas-wrapper
-{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    height: 90%;
-    width: 90%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.dropdown-trigger:checked ~ .dropdown-header
-{
-    background-color: var(--primary-dark);
 }
 .dropdown-items
 {
@@ -151,10 +65,111 @@
 {
     background-color: var(--primary-darker);
 }
-/* .theme-icon:hover .theme-load-screen
+
+/* G A M E */
+
+.game, .game-canvas
 {
-    clip-path: circle(200% at 50% 100%);
-} */
+    flex-grow: 1;
+    position: relative;
+    background-color: var(--secondary-dark);
+    display: flex;
+    flex-direction: column;
+}
+.score
+{
+    text-align: center;
+    font-size: 1.2rem;
+    padding: 9px;
+}
+.state
+{
+    margin-bottom: 10px;
+}
+.game-state
+{
+    font-size: 1.5rem;
+    max-height: 0px;
+    text-align: center;
+    padding: 0px;
+}
+
+.canvas-wrapper
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 90%;
+    width: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* N A V I G A T I O N */
+
+.hamburger, .redo
+{
+    background-color: var(--primary);
+    position: absolute;
+    border-radius: 100%;
+    font-size: 1.2rem;
+    padding: 15px;
+    aspect-ratio: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.5s all cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    cursor: pointer;
+}
+
+.hamburger
+{
+    right: 0.62rem;
+    top: 0.62rem;
+}
+.redo
+{
+    right: 5.62rem;
+    top: 0.62rem;
+}
+.hamburger:hover, .redo:hover
+{
+    background-color: var(--primary-darker);
+}
+
+
+/* T H E M E S */
+
+.themes
+{
+    background-color: var(--primary);
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    padding: 5px 0px;
+}
+.theme-icon
+{
+    height: 60px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    margin: 0 auto;
+    transition: 0.5s all cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.theme-icon:hover
+{
+    border-radius: 25%;
+    filter: brightness(115%);
+    
+}
+
+#load-btn
+{
+    display: inline-block;
+}
+
 #theme-load-screen
 {
     position: absolute;
@@ -171,13 +186,6 @@
     animation: theme-cover-screen 0.7s 2 alternate;
 }
 
-.center
-{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
 .colorful-dark
 {
     background-color: #3498db;
@@ -193,44 +201,21 @@
     background-color: #fce0e1;
     border: 4px solid #B0C0F7;
 }
-.hamburger, .redo
-{
-    background-color: var(--primary);
-    position: absolute;
-    border-radius: 100%;
-    font-size: 1.2rem;
-    padding: 15px;
-    aspect-ratio: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.5s all cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    cursor: pointer;
-}
-.hamburger
-{
-    right: 0.62rem;
-    top: 0.62rem;
-}
-.redo
-{
-    right: 5.62rem;
-    top: 0.62rem;
-}
-.hamburger:hover, .redo:hover
-{
-    background-color: var(--primary-darker);
-}
 
-@keyframes theme-cover-screen {
-    from {
+@keyframes theme-cover-screen
+{
+    from 
+    {
         clip-path: circle(0% at 100% 100%);
     }
   
-    to {
+    to 
+    {
         clip-path: circle(200% at 100% 100%);
     }
-  }
+}
+
+/* U T I L I T Y */
 
 /* MEDIA */
 
